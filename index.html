@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>HomeDev68 - Portfolio</title>
+<link rel="icon" type="image/x-icon" href="https://avatars.githubusercontent.com/u/180551684?v=4">
+<style>
+  :root {
+    --bg-color: #f5f7fa;
+    --text-color: #333;
+    --card-bg: #ffffff;
+    --header-bg: rgba(255, 255, 255, 0.9);
+    --primary: #007bff;
+    --primary-hover: #0056b3;
+    --border-color: #eee;
+    --shadow: 0 4px 12px rgb(0 0 0 / 0.05);
+    --card-hover-bg: #f1f5f9;
+    --heading-color: #0a2463;
+  }
+
+  [data-theme="dark"] {
+    --bg-color: #0f172a;
+    --text-color: #f1f5f9;
+    --card-bg: #1e293b;
+    --header-bg: rgba(30, 41, 59, 0.9);
+    --primary: #38bdf8;
+    --primary-hover: #7dd3fc;
+    --border-color: #334155;
+    --shadow: 0 4px 12px rgb(0 0 0 / 0.3);
+    --card-hover-bg: #2d3a4f;
+    --heading-color: #38bdf8;
+  }
+
+  * { box-sizing: border-box; transition: background-color 0.3s ease, color 0.3s ease; }
+
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  a { color: var(--primary); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    flex-grow: 1;
+  }
+
+  header {
+    background: var(--header-bg);
+    backdrop-filter: blur(8px);
+    padding: 1rem 0;
+    box-shadow: 0 2px 6px rgb(0 0 0 / 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  nav a {
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+  }
+
+  nav a:hover { background: var(--border-color); text-decoration: none; }
+
+  #theme-toggle {
+    background: none;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  
+  #theme-toggle:hover {
+    background-color: var(--border-color);
+  }
+
+  #theme-toggle svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .hero {
+    text-align: center;
+    margin: 4rem 0;
+  }
+
+  .hero img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid var(--primary);
+    box-shadow: 0 4px 15px var(--primary);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    color: var(--heading-color);
+  }
+
+  .hero p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 1rem auto;
+    color: var(--text-color);
+    opacity: 0.9;
+  }
+
+  section {
+    margin-bottom: 3rem;
+    background: var(--card-bg);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+  }
+
+  section h2 {
+    font-size: 1.8rem;
+    border-bottom: 3px solid var(--primary);
+    padding-bottom: 0.3rem;
+    margin-bottom: 1.5rem;
+    color: var(--heading-color);
+  }
+
+  .skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+  }
+
+  .skill-badge {
+    background: var(--primary);
+    color: #fff;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    box-shadow: 0 2px 8px rgb(0 123 255 / 0.2);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    background: var(--card-hover-bg);
+    border-radius: 10px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    border: 1px solid var(--border-color);
+  }
+
+  .project-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgb(0 0 0 / 0.15);
+  }
+
+  .project-card h3 { margin: 0 0 0.5rem; color: var(--heading-color); }
+  .project-card p { flex-grow: 1; font-size: 0.95rem; margin-bottom: 1rem; }
+
+  .project-footer {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border-color);
+  }
+
+  .tech-used {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-color);
+    opacity: 0.7;
+    margin-bottom: 0.75rem;
+    font-style: italic;
+  }
+
+  .launch-btn {
+    display: inline-block;
+    font-weight: 700;
+    color: var(--primary);
+  }
+
+  #contact-form { display: grid; gap: 1rem; }
+  
+  input, textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-color);
+    color: var(--text-color);
+  }
+
+  button[type="submit"] {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 30px;
+    font-weight: 700;
+    cursor: pointer;
+    align-self: flex-start;
+  }
+
+  button[type="submit"]:hover { background: var(--primary-hover); }
+
+  footer {
+    text-align: center;
+    padding: 3rem 0;
+    border-top: 1px solid var(--border-color);
+    color: var(--text-color);
+    background: var(--card-bg);
+  }
+
+  .footer-links {
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .footer-links a {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    color: var(--text-color);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  }
+
+  .footer-links a:hover {
+    transform: translateY(-3px);
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+    box-shadow: 0 5px 15px rgba(0, 123, 255, 0.3);
+  }
+
+  .footer-links svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 2;
+  }
+
+  footer p {
+    margin: 0;
+    font-size: 0.9rem;
+    opacity: 0.7;
+  }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 2rem; }
+    nav { gap: 0.8rem; }
+    nav a { font-size: 0.9rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <nav aria-label="Primary navigation">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+    <button id="theme-toggle" aria-label="Toggle dark mode">
+      <svg id="sun-icon" style="display:none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="17.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+      <svg id="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+  </nav>
+</header>
+
+<main class="container">
+  <section class="hero">
+    <img src="https://avatars.githubusercontent.com/u/180551684?v=4" alt="HomeDev68 Profile"/>
+    <h1>HomeDev68</h1>
+    <p>Backend Developer specializing in Python and building efficient API architecture.</p>
+  </section>
+
+  <section id="about">
+    <h2>About Me</h2>
+    <p>Hello! I am HomeDev68, a dedicated backend developer with expertise in Python. I enjoy turning complex problems into scalable, efficient digital solutions.</p>
+  </section>
+
+  <section id="skills">
+    <h2>Skills</h2>
+    <div class="skills-list">
+      <span class="skill-badge">Python</span>
+      <span class="skill-badge">Flask</span>
+      <span class="skill-badge">SQLAlchemy</span>
+      <span class="skill-badge">Supabase</span>
+      <span class="skill-badge">PostgreSQL</span>
+      <span class="skill-badge">Git</span>
+      <span class="skill-badge">JavaScript</span>
+      <span class="skill-badge">HTML/CSS</span>
+    </div>
+  </section>
+
+  <section id="projects">
+    <h2>Projects</h2>
+    <div class="projects-grid">
+      <article class="project-card">
+        <h3>URL Shortener App</h3>
+        <p>A robust backend service for shortening URLs with custom redirect logic and clean API endpoints.</p>
+        <div class="project-footer">
+          <span class="tech-used">Tech: Flask • SQLAlchemy • Python</span>
+          <a href="https://shorturl.homedev68.qzz.io" target="_blank" class="launch-btn">Launch App &rarr;</a>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <h3>Exam Countdown Timer</h3>
+        <p>A precision-focused web tool to help students track time remaining for upcoming academic exams.</p>
+        <div class="project-footer">
+          <span class="tech-used">Tech: JavaScript • CSS3 • HTML5</span>
+          <a href="https://countdown.homedev68.qzz.io" target="_blank" class="launch-btn">Launch App &rarr;</a>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <h3>Portfolio Website</h3>
+        <p>My personal showcase featuring smooth transitions, dark mode, and integrated contact handling.</p>
+        <div class="project-footer">
+          <span class="tech-used">Tech: HTML • CSS • JavaScript</span>
+          <a href="https://homedev68.qzz.io" target="_blank" class="launch-btn">Launch App &rarr;</a>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h2>Contact Me</h2>
+    <form id='contact-form' method='POST' name='contact'>
+      <input type="hidden" name="form-name" value="contact" />
+      <div class="sr-only">If you are a bot, ignore this: <input name="bot-field" /></div>
+      
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <textarea name="message" rows="4" placeholder="Your Message" required></textarea>
+      
+      <button type="submit" id="submit-btn">Send Message</button>
+      <p id="form-feedback" role="alert" style="margin-top: 1rem; font-weight: 600;"></p>
+    </form>
+  </section>
+</main>
+
+<footer>
+  <div class="footer-links">
+    <a href="https://github.com/HomeDev68" target="_blank" aria-label="GitHub">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+    </a>
+    <a href="#" target="_blank" aria-label="LinkedIn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    </a>
+    <a href="#" target="_blank" aria-label="Email">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    </a>
+  </div>
+  <p>&copy; <span id="current-year"></span> HomeDev68. All rights reserved.</p>
+</footer>
+
+<script>
+  // Theme Toggle Logic
+  const toggleBtn = document.getElementById('theme-toggle');
+  const sunIcon = document.getElementById('sun-icon');
+  const moonIcon = document.getElementById('moon-icon');
+  
+  toggleBtn.addEventListener('click', () => {
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    sunIcon.style.display = isDark ? 'none' : 'block';
+    moonIcon.style.display = isDark ? 'block' : 'none';
+  });
+
+  // Auto-update Year
+  document.getElementById('current-year').textContent = new Date().getFullYear();
+
+  // Form Handling
+  const form = document.getElementById('contact-form');
+  const feedback = document.getElementById('form-feedback');
+  const submitBtn = document.getElementById('submit-btn');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    const formData = new FormData(form);
+    try {
+      const response = await fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams(formData).toString(),
+      });
+      if (response.ok) {
+        feedback.style.color = '#28a745';
+        feedback.textContent = 'Success! Message sent.';
+        form.reset();
+      } else { throw new Error(); }
+    } catch {
+      feedback.style.color = '#ef4444';
+      feedback.textContent = 'Error. Please try again later.';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Message';
+    }
+  });
+</script>
+</body>
+</html>
